@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>math</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin-block-end: 0; display:inline-block;}
+        h2{font-weight: normal;}
+
+        td:nth-child(1){font-family: consolas;}
+
+        [bound_calculated]{border: 2px solid darkorange; text-align: right;}
+        input[type="number"]{width: 5em; text-align: right;}
+
+        table[tbl-grid] [bound_calculated]{height: 1em; width: 4em; text-align: right;}
+    </style>
+    <style>
+        h3{margin: 0; display:inline-block;}
+        h3 code{color: #004eff; }
+        h3 i{font-style: normal; color: darkmagenta}
+        h3 b{color:brown}
+        td[e-rr]{color:red}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding &nbsp;&nbsp;</h1> 
+    <a href="index.html" >index</a> &nbsp;
+    <a href="grid.html" >grid with totals</a>    <br>
+    <h2>math <code>Reverse Polish Notation</code></h2>
+    supported operators: <code bound_path="ds.operators"></code><br><br>
+
+    calculation is done AFTER <b>ALL</b> operators have value<br><br>
+    
+   
+
+    <table>
+        <tr><td>A</td><td><input bound_path="ds.valueA"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueA"&gt;</code></h3></td></tr>
+        <tr><td>B</td><td><input bound_path="ds.valueB"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueB"&gt;</code></h3></td></tr>
+        <tr><td>C</td><td><input bound_path="ds.valueC"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueC"&gt;</code></h3></td></tr>
+        <tr><td>A B + C +</td><td bound_calculated="ds.valueA ds.valueB + ds.valueC +"></td><td><h3><code>&lt;td <i>bound_calculated</i>="ds.valueA ds.valueB + ds.valueC +"&gt;</code></h3></td></tr>
+    </table>
+    <br>
+    <table>
+        <tr><td>X</td><td><input bound_path="ds.valueX"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueX"&gt;</code></h3></td></tr>
+        <tr><td>Y</td><td><input bound_path="ds.valueY"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueY"&gt;</code></h3></td></tr>
+        <tr><td>Z</td><td><input bound_path="ds.valueZ"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueZ"&gt;</code></h3></td></tr>
+        <tr><td>X Y + Z *</td><td bound_calculated="ds.valueX ds.valueY + ds.valueZ *"></td><td><h3><code>&lt;td <i>bound_calculated</i>="ds.valueX ds.valueY + ds.valueZ *"&gt;</code></h3></td></tr>
+    </table>
+    <br>
+    error in RPN formula
+    <table>
+        <tr><td>E</td><td><input bound_path="ds.valueE"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueE"&gt;</code></h3></td></tr>
+        <tr><td>F</td><td><input bound_path="ds.valueF"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueF"&gt;</code></h3></td></tr>
+        <tr><td>G</td><td><input bound_path="ds.valueG"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valueG"&gt;</code></h3></td></tr>
+        <tr><td e-rr>E F G +</td><td bound_calculated="ds.valueE ds.valueF ds.valueG +"></td><td><h3><code>&lt;td <i>bound_calculated</i>="ds.valueE ds.valueF ds.valueG +"&gt;</code></h3></td></tr>
+    </table>
+    <br>
+    use of <code>bound_path_out</code> with <code>bound_calculated</code><br>
+    <table>
+        <tr><td>A</td><td><input bound_path="ds.valA"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valA"&gt;</code></h3></td></tr>
+        <tr><td>B</td><td><input bound_path="ds.valB"  type="number"></td><td><h3><code>&lt;input <i>bound_path</i>="ds.valB"&gt;</code></h3></td></tr>
+        <tr><td>A B +</td><td bound_calculated="ds.valA ds.valB +" bound_path_out="ds.result"></td><td><h3><code>&lt;td <i>bound_calculated</i>="ds.valA ds.valB +"&gt; <i>bound_path_out</i>="ds.result"</code></h3></td></tr>
+        <tr><td>result</td><td bound_path="ds.result"></td><td><h3><code>&lt;td <i>bound_path</i>="ds.result"&gt;</code></h3></td></tr>
+    </table>
+ <br>
+    example of grid
+    <table tbl-grid>
+        <tr><th></th><th>1</th><th>2</th><th>3</th><th>T</th></tr>
+        <tr><td>1</td><td><input bound_path="ds.r1c1"  type="number"></td><td><input bound_path="ds.r1c2"  type="number"></td><td><input bound_path="ds.r1c3"  type="number"></td><td bound_path_out="ds.tr1" bound_calculated="ds.r1c1 ds.r1c2 + ds.r1c3 +"></td></tr>
+        <tr><td>2</td><td><input bound_path="ds.r2c1"  type="number"></td><td><input bound_path="ds.r2c2"  type="number"></td><td><input bound_path="ds.r2c3"  type="number"></td><td bound_path_out="ds.tr2" bound_calculated="ds.r2c1 ds.r2c2 + ds.r2c3 +"></td></tr>
+        <tr><td>3</td><td><input bound_path="ds.r3c1"  type="number"></td><td><input bound_path="ds.r3c2"  type="number"></td><td><input bound_path="ds.r3c3"  type="number"></td><td bound_path_out="ds.tr3" bound_calculated="ds.r3c1 ds.r3c2 + ds.r3c3 +"></td></tr>
+        <tr><td>T</td><!-- columns total -->
+            <td bound_calculated="ds.r1c1 ds.r2c1 + ds.r3c1 +"></td>
+            <td bound_calculated="ds.r1c2 ds.r2c2 + ds.r3c2 +"></td>
+            <td bound_calculated="ds.r1c3 ds.r2c3 + ds.r3c3 +"></td>
+            <!-- total of totals, based on row totals -->
+            <td bound_calculated="ds.tr1 ds.tr2 + ds.tr3 +"></td>
+        </tr>
+    </table>
+    <a href="#" onclick="zeroingGrid()">zeroing grid</a>
+
+    <script type="module">
+        import {AlfaDatabinding, alfaMath} from '../../alfa-databinding.mjs'
+        window.alfaDatabinding = new AlfaDatabinding()
+
+        alfaDatabinding.set('ds.operators', alfaMath.operators.join(), null) //* to display supported operators
+
+        window.zeroingGrid = function(){
+            for(var r=1; r < 4; r++){
+                for(var c=1; c < 4; c++){
+                    alfaDatabinding.set(`ds.r${r}c${c}`, 0, null)
+                }
+            }
+        }
+       
+    </script>
+</body>
+</html>

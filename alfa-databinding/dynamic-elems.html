@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dynamic elems</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h2{font-weight: normal;}
+        /* span{border: 1px solid silver; padding: 0 1em;}     */
+    </style>
+</head>
+<body>
+    <h1>dynamic elements  &nbsp;&nbsp;
+        <a href="index.html" target="_blank">index</a></h1>
+    <h2>dynamic elems<br><small>elements are created by document.createElement()</small></h2>
+
+    assing to span &nbsp;
+    <a href="#" onclick="assignToSpan('abc', {byObjVar:true})">by objVar</a>  &nbsp;&nbsp;
+    <a href="#" onclick="assignToSpan('def', {byQrySelect:true})">by QrySelect</a><br><br>
+
+    <div id="container"></div>
+
+    <script type="module">
+        const LOG_PREF = '(page.html)'
+        const $dqs = document.querySelector.bind(document)
+        const $dce = document.createElement.bind(document)
+
+        const container = $dqs('div#container')
+
+        make_ui(1)
+        container.append($dce('br'), $dce('br'))
+        make_ui(2)
+        container.append($dce('br'), $dce('br'))
+        make_ui(3)
+
+        function make_ui(id){
+
+            var br = $dce('br')
+            var span = $dce('span')
+            // span.id = 's'+id
+
+            var input = $dce('input')
+            // input.id = 'i'+id
+            // input.addEventListener('change', change_handler)
+            input.addEventListener('change', on_change)
+
+            container.append(span, br, input)
+
+            // helper ////////////
+            function on_change(ev){
+                span.innerText = ev.target.value
+            }
+        }
+
+       
+        // container.addEventListener('change', change_handler)
+
+        // function change_handler(ev){
+        //     var trg = ev.target
+        //     $dqs(`span#s${trg.id.substring(1)}`).innerText = trg.value
+        // }
+
+
+        window.assignToSpan = function(txt, method){
+            if(method.byObjVar) span.innerText = txt
+            else if(method.byQrySelect) $dqs('span').innerText = txt
+        }
+    </script>

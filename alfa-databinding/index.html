@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alfa-databinding</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin-block-end: 0;}
+        h1 i{font-size: .8em;}
+        /* h1 small{font-size: .5em;} */
+        div{border: 1px solid silver;}
+        table td{border: 1px solid silver;}
+       
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding &nbsp;&nbsp; <small>
+        <i>DOCS:</i> 
+        <a href="docs/alfaDatabinding 1-initialization.png">init PNG</a>&nbsp;&nbsp;<a href="docs/alfaDatabinding 2-notifySubscribers.png">notifySubs PNG</a>
+    </small></h1> 
+        examples of use:<br>
+        <a href="elem-input.html" >input</a> &lt;input&gt; type <code>search, checkbox, radio</code> <br>
+        <a href="elems-with-arrays.html">elems-with-arrays</a> elements with Arrays as a <code>bound_path</code> source <br>
+        <a href="clear_selected.html" >clear_selected</a> usage of <code>bound_path_clear_selected</code> <br>
+        <a href="elems-with-events.html">elems with events</a> <code>onchange, onrowselect</code> <br> 
+        <a href="actions.html">elems with actions</a> <code>hide, disable</code> <br> 
+        <a href="dynamic-page.html" >dynamic page</a> HTMLElements are created dynamically<br>
+        <!-- <a href="features.html">features</a> <code>constants</code> <br>  -->
+        <a href="math.html">math</a> <code>bound_calculated</code>, grid with Totals, <code>Reverse Polish Notation</code> <br> 
+        
+        
+        <small>tests:</small> 
+        <a href="tests/bound-path.html">bound-path</a> &nbsp;
+        <a href="tests/bound-path-2.html">bound-path 2</a> &nbsp; 
+        <a href="tests/bounding-arrays.html">bounding arrays</a> &nbsp;
+        <br><br>
+     <hr>
+
+    <label><b>enter value</b> <input bound_path="ds.arg1" on-input></label>
+    <hr>
+    value can be bound to any html element: 
+    <!-- (<a href="elems-with-arrays.html">except</a>)<br> -->
+    <h1 bound_path="ds.arg1"></h1> 
+    <h2 bound_path="ds.arg1"></h2> 
+    <h3 bound_path="ds.arg1"></h3> 
+    <span bound_path="ds.arg1"></span> <br>
+    <input bound_path="ds.arg1" disabled><br>
+    <div bound_path="ds.arg1"></div> <br>
+    <textarea bound_path="ds.arg1"></textarea> <br>
+    <pre bound_path="ds.arg1"></pre> <br>
+    <i bound_path="ds.arg1"></i> <br>
+    <b bound_path="ds.arg1"></b> <br>
+    <code bound_path="ds.arg1"></code> <br>
+    <table>
+        <tr><td bound_path="ds.arg1"></td><td bound_path="ds.arg1"></td><td bound_path="ds.arg1"></td></tr>
+    </table>
+
+
+  
+    <script type="module">
+        import {AlfaDatabinding} from '../alfa-databinding.mjs'
+        new AlfaDatabinding()
+    </script>
+</body>

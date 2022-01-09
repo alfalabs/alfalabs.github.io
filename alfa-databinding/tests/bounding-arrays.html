@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arrays</title>
+    <link rel="stylesheet" href="../../common.css">
+    <style>
+        h1{margin: 0}
+        h2{font-weight: normal; margin-bottom: 0; font-size: 1.2em; }
+        h2 b{color: red;}
+        span{padding: .2em; color: green; font-weight:bold;}
+        pre{color: green;}
+        label{color: brown; font-weight: bold;}
+        input{width: 5em;}
+        pre{margin: 0 0 1em 0; border: 1px solid silver;}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding  &nbsp;&nbsp;
+        <a href="../index.html" >index</a></h1>
+    <h2><b>exprimental &nbsp; </b> bounding arrays </h2>
+    <br>
+    <h2>fake array notation in <code>bound_path</code>, a string with square brackets</h2>
+    <br>
+    <table tbl-grid>
+        <tr><th></th><th>C0</th><th>C1</th><th>C2</th></tr>
+        <tr><td>R0</td><td><input bound_path="ds.arrA[0].col0"></td><td><input bound_path="ds.arrA[0].col1"></td><td><input bound_path="ds.arrA[0].col2"></td></tr>
+        <tr><td>R1</td><td><input bound_path="ds.arrA[1].col0"></td><td><input bound_path="ds.arrA[1].col1"></td><td><input bound_path="ds.arrA[1].col2"></td></tr>
+        <tr><td>R2</td><td><input bound_path="ds.arrA[2].col0"></td><td><input bound_path="ds.arrA[2].col1"></td><td><input bound_path="ds.arrA[2].col2"></td></tr>
+    </table>
+    <br>
+    <table tbl-grid>
+        <tr><th></th><th>C0</th><th>C1</th><th>C2</th></tr>
+        <tr><td>R0</td><td bound_path="ds.arrA[0].col0"></td><td bound_path="ds.arrA[0].col1"></td><td bound_path="ds.arrA[0].col2"></td></tr>
+        <tr><td>R1</td><td bound_path="ds.arrA[1].col0"></td><td bound_path="ds.arrA[1].col1"></td><td bound_path="ds.arrA[1].col2"></td></tr>
+        <tr><td>R2</td><td bound_path="ds.arrA[2].col0"></td><td bound_path="ds.arrA[2].col1"></td><td bound_path="ds.arrA[2].col2"></td></tr>
+    </table>
+    <br>
+    <h2>at the beginning there is no <code>ds.arrA</code> as Array</h2><br>
+    <!-- path: "ds.arrA[0]"
+    <pre bound_path="ds.arrA[0]" to-json></pre>
+    path: "ds.arrA[1]"
+    <pre bound_path="ds.arrA[1]" to-json></pre>
+    path: "ds.arrA[2]"
+    <pre bound_path="ds.arrA[2]" to-json></pre>
+    <br> -->
+
+    &lt;pre bound_path="ds" &gt;
+    <pre bound_path="ds" to-json></pre>
+
+
+    <a href="#" onclick="createDsArray()">createDsArray</a> and look what's happening - ds.arrA is updated in "ds", but not in "ds.ArrA"<br>
+
+    &lt;pre bound_path="ds.arrA" &gt;
+    <pre bound_path="ds.arrA" to-json></pre>
+
+    <script type="module">
+        import {AlfaDatabinding} from '../../alfa-databinding.mjs'
+        window.alfaDatabinding = new AlfaDatabinding()
+
+       
+        var arrA = [
+            {col0: 'alfa', col1: 'beta', col2: 'gamma' },
+            {col0: 'ala',  col1: 'bea',  col2: 'cloe'  },
+            {col0: 'fifi', col1: 'gigi', col2: 'beckie'},
+        ]
+     
+
+        
+        //* build grid - proprietary, column naming is hard coded
+        window.buildGridArr = function(){
+            var rows=3, cols=3
+            for(var r=0; r < rows; r++){
+                for(var c=0; c < cols; c++){
+                    // var colName = Object.keys(arrA[r])[c]
+                    var colName = `col${c}`
+                    var cellValue = arrA[r][colName]
+                    var path = `ds.arrA[${r}].col${c}`
+                    alfaDatabinding.set(path, cellValue, null)
+                }
+            }
+        }
+
+        window.buildGridArr()
+
+
+
+        import {setPropertyByPath, getPropertyByPath, delPropertyByPath} from '../../alfa-setproperty-bypath.mjs'
+
+        window.createDsArray = function(arrPath){
+            
+            arrPath = 'ds.arrA'
+            
+            var lastDot = arrPath.lastIndexOf('.')
+            var pathToParent = arrPath.substring(0, lastDot)
+
+            var arrParent = getPropertyByPath(window, pathToParent)
+            if(typeof arrParent==='undefined'){console.error("arrParent==='undefined'"); return}
+
+
+            var tempArr = []
+
+            //* find all occurrences in ds
+            for(var objName in arrParent){
+                if(objName.endsWith(']')){
+                    var P = objName.indexOf('[')
+                    if(P > 0){ //* at least one character must be a name of Array
+                        var arrName = objName.substring(0, P)
+                        var idx = objName.substring(P+1, objName.length-1)
+                            idx = parseInt(idx, 10)
+                        var value = arrParent[objName]
+                        
+                        tempArr[idx] = value
+                    }
+                }
+            }
+
+            alfaDatabinding.set(arrPath, tempArr, null)
+
+        }
+    </script>
+</body>
+</html>

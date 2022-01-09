@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>input</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin: 0}
+        h2{font-weight: normal; margin-bottom: 0; font-size: 1.2em;
+             /* display: inline-block; */
+            }
+        label{padding: .25em}  
+
+        span{padding: .2em; color:green; font-weight: bold;}
+
+        h3{margin-block-end: .5em; display:inline-block;}
+        h3[no-mrg]{margin: 0}
+        h3 code{color: #004eff; }
+        i{font-style: normal; color: darkmagenta}
+        b{color:brown}
+       
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding  &nbsp;&nbsp;
+        <a href="index.html" >index</a></h1>
+   
+    <h3><code>&lt;input <i>bound_path</i>="ds.arg01"&gt;</code></h3><code> &lt;span <i>bound_path</i>="ds.arg01"&gt;</code><br>
+    <label>arg01<input bound_path="ds.arg01"></label>
+                 <span bound_path="ds.arg01"></span>
+                <input bound_path="ds.arg01" disabled></input>
+<br>
+    <h3><code>&lt;input type="<b>checkbox</b>" <i>bound_path</i>="ds.arg02"&gt;</code></h3><code> &lt;span <i>bound_path</i>="ds.arg02"&gt;</code><br>
+    <label>arg02<input type="checkbox"  bound_path="ds.arg02"></label>
+                                  <span bound_path="ds.arg02"></span>
+                <input type="checkbox"  bound_path="ds.arg02" disabled>
+    <br>
+    <br>
+    <h2>Two types of data source for dropdown &nbsp;&nbsp; <small>using <code>&lt;datalist&gt;</code> or <code>bound_path</code> to JS Array</small></h2>
+    <h3><code>&lt;input type="<b>search</b>" list="data-lst" <i>bound_path_out</i>="ds.selected"&gt;</code></h3><code> &lt;span <i>bound_path</i>="ds.selected"&gt;</code><br>
+    <label>select<input type="search" list="data-lst" bound_path_out="ds.selected"></label><span bound_path="ds.selected"></span>
+    <datalist id="data-lst"><option>alfa</option><option>beta</option><option>gamma</option><option>delta</option></datalist>
+<br>
+    <h3><code>&lt;input type="<b>search</b>" <i>bound_path</i>="ds.list" <i>bound_path_out</i>="ds.selected"&gt;</code></h3><code> &lt;span <i>bound_path</i>="ds.selected"&gt;</code><br>
+    <label>select<input type="search" bound_path="ds.list"  bound_path_out="ds.selected2"></label><span bound_path="ds.selected2"></span>
+    <br>
+    <br>
+    <h2>Two ways to set radio value &nbsp;&nbsp;<small>using <code>&lt;label&gt;</code> or attribute <code>bound_value</code></small></h2> 
+    <h3><code>&lt;label&gt;&lt;input type="<b>radio</b>" <i>bound_path_out</i>="ds.radioSelected"&gt;</code></h3><code> &lt;span <i>bound_path</i>="ds.radioSelected"&gt;</code><br>
+        <label><input type="radio" name="radio-group" bound_path_out="ds.radioSelected"> Alfa </label> &nbsp;&nbsp;
+        <label><input type="radio" name="radio-group" bound_path_out="ds.radioSelected"> Beta </label> &nbsp;&nbsp;
+        <label><input type="radio" name="radio-group" bound_path_out="ds.radioSelected"> Gamma</label> &nbsp;&nbsp;
+    <span bound_path="ds.radioSelected"></span>
+
+    <br><br>
+    <h3 no-mrg><code>&lt;input type="<b>radio</b>"  bound_value="A" <i>bound_path_out</i>="ds.radioSelected"&gt;</code></h3>
+    <h3 no-mrg><code>&lt;input type="<b>radio</b>"  bound_value="B" <i>bound_path_out</i>="ds.radioSelected"&gt;</code></h3>
+    <h3 no-mrg><code>&lt;input type="<b>radio</b>"  bound_value="G" <i>bound_path_out</i>="ds.radioSelected"&gt;</code></h3>
+    <code> &lt;span <i>bound_path</i>="ds.radioSelected"&gt;</code><br>
+    <input type="radio" name="radio-group2" bound_path_out="ds.radioSelected2" bound_value="A"> Alfa  &nbsp;&nbsp;
+    <input type="radio" name="radio-group2" bound_path_out="ds.radioSelected2" bound_value="B"> Beta  &nbsp;&nbsp;
+    <input type="radio" name="radio-group2" bound_path_out="ds.radioSelected2" bound_value="G"> Gamma &nbsp;&nbsp;
+<span bound_path="ds.radioSelected2"></span>
+<br>
+
+    <br>
+    <h2>Update on  each typed character &nbsp;&nbsp; <small>using <code>on-input</code> attr</small></h2>
+    <h3><code>&lt;input <b>on-input</b> <i>bound_path</i>="ds.arg09"&gt;</code></h3><code> &lt;span <i>bound_path</i>="ds.arg09"&gt;</code><br>
+    <label>arg09<input bound_path="ds.arg09" on-input></label>
+                <input bound_path="ds.arg09" disabled></input>
+                 <span bound_path="ds.arg09"></span>
+                
+
+    <script  type="module">
+         const LOG_PREF = '(page.html)'
+        const $dqs = document.querySelector.bind(document)
+        const $dce = document.createElement.bind(document)
+
+       
+        import {AlfaDatabinding} from '../alfa-databinding.mjs'
+
+        const alfaDatabinding = new AlfaDatabinding()
+
+
+        //* sample data
+        var searchList = ['one', 'two', 'three', 'four']
+        alfaDatabinding.set('ds.list', searchList, null )
+    </script>
+</body>
+</html>

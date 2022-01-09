@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arrays</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin: 0}
+        h2{font-weight: normal; margin-bottom: 0; font-size: 1.2em; }
+        span{padding: .2em; color: green; font-weight:bold;}
+        pre{color: green;}
+        label{color: brown; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding  &nbsp;&nbsp;
+        <a href="index.html" >index</a></h1>
+    <h2><code>bound_path</code> as array<br> <code>bound_path_out</code> as user selection</h2>
+    <br>
+
+    <label>&lt;input type="search"&gt; </label><input type="search"  bound_path="ds.arrayList2" bound_path_out="ds.selectedSearch"> <span bound_path="ds.selectedSearch"></span> <br>
+    <label>&lt;input type="search"&gt; </label><input type="search"  bound_path="ds.arrayList2" bound_path_out="ds.selectedSearch2" > <span bound_path="ds.selectedSearch2"></span> <br><br>
+
+    <label>&lt;select&gt; </label><select bound_path="ds.arrayList1"  bound_path_out="ds.selectedSelect"></select> <span bound_path="ds.selectedSelect"></span> <br>
+    <label>&lt;select <code>start-blank</code>&gt; </label><select bound_path="ds.arrayList1"  bound_path_out="ds.selectedSelect1" start-blank></select> <span bound_path="ds.selectedSelect1"></span> <br>
+    <label>&lt;select <code>text-value</code>&gt; </label><select bound_path="ds.arrayList2"  bound_path_out="ds.selectedSelect2" text-value></select> <span bound_path="ds.selectedSelect2"></span> <br>
+    <label>&lt;select <code>value-text</code>&gt; </label><select bound_path="ds.arrayList2"  bound_path_out="ds.selectedSelect3" value-text></select> <span bound_path="ds.selectedSelect3"></span> <br><br>
+    
+    <label>&lt;datalist&gt; </label><datalist bound_path="ds.arrayList2" id="dl1"></datalist> &nbsp;&nbsp; input with list=datalist.id <input list="dl1"></input><br><br>
+    
+    <label>&lt;table&gt; </label> default biuld in event: <code>on_tableRowClick</code> sends row to <code>bound_path_out</code>
+    <table bound_path="ds.tableData1" bound_path_out="ds.selectedRow"></table> 
+    &lt;pre&gt; with selecter table row:
+    <pre bound_path="ds.selectedRow" to-json></pre>
+
+    <br>
+    <label>&lt;table <code>bound_path_clear_selected</code>="ds.clear" &gt; </label><button onclick="window.alfaDatabinding.set('ds.clear', true, null)">ds.clear = true</button> <br>
+    <table bound_path="ds.tableData2" bound_path_out="ds.selectedRow2" bound_path_clear_selected="ds.clear"></table> 
+    load alternate data: <button onclick="window.alfaDatabinding.set('ds.tableData2', window.tableData1, null)">tableData1</button><br>
+    &lt;pre&gt; with selecter table row:
+    <pre bound_path="ds.selectedRow2" to-json></pre>
+
+    <br>
+    All the above elems can have <code>bound_path_clear_selected</code> attribute, see:  
+    <a href="clear_selected.html" >clear_selected</a>
+
+    <script type="module">
+        import {AlfaDatabinding} from '../alfa-databinding.mjs'
+        window.alfaDatabinding = new AlfaDatabinding()
+
+        import {tableData, tableData2, list1 as arrayList1, list2 as arrayList2} from './sample-data.js'
+        window.tableData1 = tableData
+        
+        alfaDatabinding.set('ds.arrayList1', arrayList1, null)
+        alfaDatabinding.set('ds.arrayList2', arrayList2, null)
+        alfaDatabinding.set('ds.tableData1', tableData , null)
+        alfaDatabinding.set('ds.tableData2', tableData2, null)
+    </script>
+</body>
+</html>

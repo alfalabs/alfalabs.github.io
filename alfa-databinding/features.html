@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>features</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin-block-end: 0; display:inline-block;}
+        h2{font-weight: normal;}
+        input[type="number"]{width: 3em;}
+        i{color:rgb(236, 130, 0)}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding &nbsp;&nbsp;</h1> 
+        <a href="index.html" >index</a><br>
+
+    <br><i>constants are not usefull now</i>
+    <h2>constants <code>dsConst</code></h2>
+
+
+    supported constants:
+    <pre bound_path="ds.supportedConstants" to-json></pre>
+
+
+    constants can not be used in calculations<br>
+    test calculation: <input bound_path="ds.arg1" type="number">
+    <!-- <input bound_path="ds.arg2" type="number"> -->
+    <span bound_calculated="ds.arg1 dsConst.ONE +"></span>
+
+    <script type="module">
+        import {AlfaDatabinding} from '../../alfa-databinding.mjs'
+        window.alfaDatabinding = new AlfaDatabinding()
+
+        alfaDatabinding.set('ds.supportedConstants', window.dsConst, null)
+    </script>
+</body>
+</html>

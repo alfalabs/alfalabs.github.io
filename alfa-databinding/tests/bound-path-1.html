@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test 1</title>
+    <link rel="stylesheet" href="../../common.css">
+    <style>
+        h2{font-weight:normal}
+        th{background: gainsboro;}
+        td:nth-child(2){font-weight:bold}
+        td:nth-child(3){font-weight:bold; color: green}
+        /* td[colspan="3"]{background: silver;} */
+        td{border-bottom: 1px solid gainsboro;}
+        pre{color: blue; margin:0}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding &nbsp;&nbsp;
+        <a href="../index.html" >index</a> &nbsp;
+        <a href="./bound-path.html" >main</a> &nbsp;
+        <button onclick="debugDS()">debug DS</button>
+    </h1> 
+    <h2>test bound_path <small>test 1</small></h2>
+
+    <table>
+        <tr><th>path</th><th>input</th><th>value</th></tr>
+        <tr><td>ds.root                          </td><td><input bound_path="ds.root"></td>                          </tr>
+        <tr><td>ds.root.trunk1                   </td><td><input bound_path="ds.root.trunk1"></td>                   </tr>
+        <tr><td>ds.root.trunk1.branch1           </td><td><input bound_path="ds.root.trunk1.branch1"></td>           </tr>
+        <tr><td>ds.root.trunk1.branch1.leaf1     </td><td><input bound_path="ds.root.trunk1.branch1.leaf1"></td>     </tr>
+        <tr><td>ds.root.trunk1.branch1.leaf1.bud1</td><td><input bound_path="ds.root.trunk1.branch1.leaf1.bud1"></td></tr>
+        <tr><td colspan="3"></td></tr>
+    </table>
+
+    <!-- <table>
+        <tr><th>path</th><th>input</th><th>value</th></tr>
+        <tr><td>ds.root                          </td><td><input bound_path="ds.root"></td>                          <td><span bound_path="ds.root"></span></td></tr>
+        <tr><td>ds.root.trunk1                   </td><td><input bound_path="ds.root.trunk1"></td>                   <td><span bound_path="ds.root.trunk1"></span></td></tr>
+        <tr><td>ds.root.trunk1.branch1           </td><td><input bound_path="ds.root.trunk1.branch1"></td>           <td><span bound_path="ds.root.trunk1.branch1"></span></td></tr>
+        <tr><td>ds.root.trunk1.branch1.leaf1     </td><td><input bound_path="ds.root.trunk1.branch1.leaf1"></td>     <td><span bound_path="ds.root.trunk1.branch1.leaf1"></span></td></tr>
+        <tr><td>ds.root.trunk1.branch1.leaf1.bud1</td><td><input bound_path="ds.root.trunk1.branch1.leaf1.bud1"></td><td><span bound_path="ds.root.trunk1.branch1.leaf1.bud1"></span></td></tr>
+        <tr><td colspan="3"></td></tr> -->
+        <!-- 
+        <tr><td>ds.root                   </td><td bound_path="ds.root"></td>                   <td><span bound_path="ds.root"></span></td></tr>      
+        <tr><td>ds.root.branch1           </td><td bound_path="ds.root.branch1"></td>           <td><span bound_path="ds.root.branch1"></span></td></tr>      
+        <tr><td>ds.root.branch1.leaf1     </td><td bound_path="ds.root.branch1.leaf1"></td>     <td><span bound_path="ds.root.branch1.leaf1"></span></td></tr>      
+        <tr><td>ds.root.branch1.leaf1.bud1</td><td bound_path="ds.root.branch1.leaf1.bud1"></td><td><span bound_path="ds.root.branch1.leaf1.bud1"></span></td></tr>
+        <tr><td colspan="3"></td></tr> 
+        -->
+        <!-- <tr><th>path</th><th colspan="2">obj</th></tr>
+        <tr><td>ds.root                          </td><td colspan="2"><pre to-json bound_path="ds.root"></pre></td>                          </tr>
+        <tr><td>ds.root.trunk1                   </td><td colspan="2"><pre to-json bound_path="ds.root.trunk1"></pre></td>                   </tr>
+        <tr><td>ds.root.trunk1.branch1           </td><td colspan="2"><pre to-json bound_path="ds.root.trunk1.branch1"></pre></td>           </tr>
+        <tr><td>ds.root.trunk1.branch1.leaf1     </td><td colspan="2"><pre to-json bound_path="ds.root.trunk1.branch1.leaf1"></pre></td>     </tr>
+        <tr><td>ds.root.trunk1.branch1.leaf1.bud1</td><td colspan="2"><pre to-json bound_path="ds.root.trunk1.branch1.leaf1.bud1"></pre></td></tr>
+         -->
+    </table>
+    <small>not needed, orphaned nodes are handled<br></small>
+    <a href="#" onclick="alfaDatabinding.refershAllSubscribers()">refershAllSubscribers</a> update orphaned ds. nodes without parent nodes<br>
+    <!-- NOT: <a href="#" onclick="alfaDatabinding.scan_Elem_container('body')">scan_Elem_container</a> -->
+    <br>
+    <a href="#" onclick="assignBranch(1)">assign</a> <code>branch1 = {leaf1: {bud1: 'ciacho'}} </code><br>
+    <a href="#" onclick="assignRoot(1)">assign</a>   <code>root = {trunk1: {branch1: 'galazka'}}</code><br>
+    <a href="#" onclick="deleteTrunk(1)">delete</a>   <code>delete ds.root.trunk1</code><br>
+
+    <!-- <h2>create middle property in chain</h2>
+    <table>
+        <tr><th>path</th><th>value</th><th>value</th></tr>
+        <tr><td>ds.root              </td><td><input bound_path="ds.root"></td>              <td><span bound_path="ds.root"></span></td></tr>
+        <tr><td>ds.root.trunk1.branch1.leaf1</td><td><input bound_path="ds.root.trunk1.branch1.leaf1"></td><td><span bound_path="ds.root.trunk1.branch1.leaf1"></span></td></tr>
+        <!-- <tr><td>ds.root.trunk1.branch2.leaf1</td><td><input bound_path="ds.root.trunk1.branch2.leaf1"></td><td><span bound_path="ds.root.trunk1.branch2.leaf1"></span></td></tr> -- >
+    </table> -->
+
+    <br>
+
+    <!-- bound_path="ds"
+    <pre to-json bound_path="ds"></pre> -->
+
+    current window.ds value
+    <pre id="dbg"></pre>
+    
+
+    <script type="module">
+        import {AlfaDatabinding} from '../../alfa-databinding.mjs'
+        window.alfaDatabinding = new AlfaDatabinding()
+
+
+
+        window.assignBranch = function(n){
+            var branch1 = {leaf1: {bud1: 'ciacho'}}
+            alfaDatabinding.set('ds.root.trunk1.branch1', branch1, null)
+            if(window.ds) document.querySelector('pre#dbg').innerHTML = JSON.stringify(window.ds, null, 4)
+        }
+        window.assignRoot = function(n){
+            // console.log(`%cwindow.ds.root.trunk1.branch1.leaf1`, 'background:yellow', {leaf1: window.ds.root.trunk1.branch1.leaf1})
+            
+            // var root = {branch1: {leaf1: {bud1: 'ciacho'}}}
+            var root = {trunk1: {branch1: 'galazka'}}
+            alfaDatabinding.set('ds.root', root, null)
+
+            if(window.ds) document.querySelector('pre#dbg').innerHTML = JSON.stringify(window.ds, null, 4)
+            // console.log(`%cwindow.ds.root.trunk1.branch1`, 'background:yellow', {branch1: window.ds.root.trunk1.branch1})
+        }
+        window.deleteTrunk = function(){
+            alfaDatabinding.delete('ds.root.trunk1', console.error)
+            if(window.ds) document.querySelector('pre#dbg').innerHTML = JSON.stringify(window.ds, null, 4)
+        }
+
+        window.debugDS = function(){
+            console.log(`%cDEBUG window.ds`, 'background:yellow', {ds: window.ds})
+        }
+    </script>
+</body>
+</html>

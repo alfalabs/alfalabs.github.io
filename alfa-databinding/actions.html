@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>actions</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin: 0}
+        h2{font-weight: normal; margin-bottom: 0; font-size: 1.2em;
+             /* display: inline-block; */
+            }
+        label{padding: .25em}  
+
+        span{padding: .2em; color:green; font-weight: bold;}
+
+        h3{margin-block-end: .5em; display:inline-block;}
+        h3[no-mrg]{margin: 0}
+        h3 code{color: #004eff; }
+        i{font-style: normal; color: darkmagenta}
+        b{color:brown}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding  &nbsp;&nbsp;
+        <a href="index.html" >index</a>
+        <button onclick="debugDS()">debug DS</button>
+    </h1>
+
+    <h2>boolean actions</h2>
+   
+    <h3><code>&lt;input <i>bound_path_disabled</i>="ds.disableInp"&gt;</code></h3><br>
+    <label>disable<input bound_path="ds.disableInp" type="checkbox"></label>
+    <input bound_path_disabled="ds.disableInp"></input>
+    <br>
+
+    <h3><code>&lt;input <i>bound_path_hidden</i>="ds.hideInp"&gt;</code></h3><br>
+    <label>hide<input bound_path="ds.hideInp" type="checkbox"></label>
+    <input bound_path_hidden="ds.hideInp"></input>
+    <br>
+    <br>
+    <h2>selecting in &lt;select&gt; and &lt;table&gt;</h2>
+
+    <h3><code>&lt;select <i>bound_path_select_item</i>="ds.selectItem"&gt;</code></h3><br>
+    <label>select alfa, beta... <input bound_path="ds.selectItem" style="width: 5em"></label>
+    <select bound_path_select_item="ds.selectItem" bound_path="ds.arrayList2" bound_path_out="ds.selectChoice" text-value></select>
+    <span bound_path="ds.selectChoice"></span>
+    <br>
+
+    <h3><code>&lt;input <i>bound_path_select_item</i>="ds.selectItem2"&gt;</code></h3><br>
+    <label>select  alfa, beta... <input bound_path="ds.selectItem2"  style="width: 5em"></label>
+    <input type="search" bound_path_select_item="ds.selectItem2" bound_path="ds.arrayList2" bound_path_out="ds.selectChoice2" text-value></input>
+    <span bound_path="ds.selectChoice2"></span>
+    <br>
+
+    <h3><code>&lt;table <i>bound_path_select_by_index</i>="ds.selectRow"&gt;</code></h3><br>
+    <label>select index <input bound_path="ds.selectRow" type="number" style="width: 5em"></label>
+    <table bound_path_select_by_index="ds.selectRow" bound_path="ds.tableData" bound_path_out="ds.selectedRow" text-value></table>
+    <pre bound_path="ds.selectedRow" to-json></p>
+    <br>
+
+   
+
+
+
+    <script type="module">
+        import {AlfaDatabinding} from '../../alfa-databinding.mjs'
+        window.alfaDatabinding = new AlfaDatabinding()
+
+        import {tableData, tableData2, list1 as arrayList1, list2 as arrayList2} from './sample-data.js'
+        alfaDatabinding.set('ds.arrayList2', arrayList2, null)
+        alfaDatabinding.set('ds.tableData',  tableData2, null)
+
+        window.debugDS = function(){
+            console.log(`%cDEBUG window.ds`, 'background:yellow', {ds: window.ds})
+        }
+    </script>
+
+</body>
+</html>

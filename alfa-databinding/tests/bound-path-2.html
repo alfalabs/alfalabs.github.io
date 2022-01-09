@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test 2</title>
+    <link rel="stylesheet" href="../../common.css">
+    <style>
+        h2{font-weight:normal}
+        tr:nth-child(1){background: gainsboro;}
+        td:nth-child(2){font-weight:bold}
+        td:nth-child(3){font-weight:bold; color: green}
+        td[colspan="3"]{background: silver;}
+        td{border-bottom: 1px solid gainsboro;}
+        pre{color: blue;}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding &nbsp;&nbsp;
+        <a href="../index.html" >index</a> &nbsp;
+        <a href="./bound-path.html" >main</a> &nbsp;
+        <button onclick="debugDS()">debug DS</button>
+    </h1> 
+    <h2>test bound_path <small>test 2</small></h2>
+
+    <table>
+        <tr><th>path</th><th>input</th><th>value</th></tr>
+        <tr><td>ds.alfa                   </td><td><input bound_path="ds.alfa"></td>                   <td><span bound_path="ds.alfa"></span></td></tr>
+        <tr><td>ds.alfabeta           </td><td><input bound_path="ds.alfabeta"></td>           <td><span bound_path="ds.alfabeta"></span></td></tr>
+        <tr><td>ds.alfabetagamma     </td><td><input bound_path="ds.alfabetagamma"></td>     <td><span bound_path="ds.alfabetagamma"></span></td></tr>
+        <tr><td>ds.alfabetagamma.bud1</td><td><input bound_path="ds.alfabetagamma.bud1"></td><td><span bound_path="ds.alfabetagamma.bud1"></span></td></tr>
+        <tr><td colspan="3"></td></tr>
+        
+        <!-- <tr><td>ds.alfa                   </td><td bound_path="ds.alfa"></td>                   <td><span bound_path="ds.alfa"></span></td></tr>      
+        <tr><td>ds.alfabeta           </td><td bound_path="ds.alfabeta"></td>           <td><span bound_path="ds.alfabeta"></span></td></tr>      
+        <tr><td>ds.alfabetagamma     </td><td bound_path="ds.alfabetagamma"></td>     <td><span bound_path="ds.alfabetagamma"></span></td></tr>      
+        <tr><td>ds.alfabetagamma.bud1</td><td bound_path="ds.alfabetagamma.bud1"></td><td><span bound_path="ds.alfabetagamma.bud1"></span></td></tr>
+        <tr><td colspan="3"></td></tr>
+        <tr><td>ds.alfa                   </td><td colspan="2"><pre to-json bound_path="ds.alfa"></pre></td>                   </tr>
+        <tr><td>ds.alfabeta           </td><td colspan="2"><pre to-json bound_path="ds.alfabeta"></pre></td>           </tr>
+        <tr><td>ds.alfabetagamma     </td><td colspan="2"><pre to-json bound_path="ds.alfabetagamma"></pre></td>     </tr>
+        <tr><td>ds.alfabetagamma.bud1</td><td colspan="2"><pre to-json bound_path="ds.alfabetagamma.bud1"></pre></td></tr>
+        <tr><td colspan="3"></td></tr> -->
+    </table>
+    <a href="#" onclick="alfaDatabinding.refershAllSubscribers()">refershAllSubscribers</a> update orphaned ds. nodes without parent nodes<br>
+    <!-- NOT: <a href="#" onclick="alfaDatabinding.scan_Elem_container('body')">scan_Elem_container</a> -->
+
+  
+
+    <br>
+    
+
+    <script type="module">
+        import {AlfaDatabinding} from '../../alfa-databinding.mjs'
+        window.alfaDatabinding = new AlfaDatabinding()
+
+
+        window.debugDS = function(){
+            console.log(`%cDEBUG window.ds`, 'background:yellow', {ds: window.ds})
+        }
+    </script>
+</body>
+</html>

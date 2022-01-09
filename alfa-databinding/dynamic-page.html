@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dynamic page</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin: 0}
+        h2{font-weight: normal; margin: 0; display: inline-block;}
+        label{padding: .2em}  
+        div#container{border: 2px solid silver}
+
+       
+        div#user-created{border: 2px solid lime}
+        i{display: inline-block; height: .5em; width: .5em; margin-right: .25em}
+        i[c-lime]{border: 2px solid lime;}
+        i[c-gren]{border: 2px solid green;}
+        i[c-orng]{border: 2px solid orange;}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding  &nbsp;&nbsp;
+        <a href="index.html" >index</a>
+        <button onclick="debugDS()">debug DS</button>
+    </h1>
+   
+    <h2>dynamic page &nbsp;</h2>
+    elements are dynamically created by <code>document.createElement()</code><br>
+    
+    <div style="background: yellow">
+        <small style="color:firebrick">NOTE:</small><br>
+        alfaDatabinding holds <b>object references</b> to DOM browser HTMLElements, <code>(ie: &lt;input&gt;)</code><br>
+        these <b>references</b> are JavaScript objects <b>NOT</b> DOM html nodes.<br>
+        Properties and Methods added to JavaScript object are <b>NOT</b> added to DOM HTMLElement!
+    </div>
+    <br>
+
+    <small>html hard coded:</small><br>
+    <input bound_path="ds.argA">
+    <span  bound_path="ds.argA"></span><br>
+    <input bound_path="ds.argB">
+    <span  bound_path="ds.argB"></span><br>
+
+    
+    <div id="container"></div>
+    after all elems created ASYNC are added, run <code>alfaDatabinding = new AlfaDatabinding()</code><br>
+
+    <br>
+    <h2>create new elems after page is build</h2><br>
+    after elems are attached to DOM, run <code>alfaDatabinding.scan_Elem_container(container)</code><br><br>
+
+    <i c-lime></i><a href="#" onclick="userCreated1()">new container 2</a><br>
+    <i c-lime></i><a href="#" onclick="userCreated2()">append to container 2</a> <small style="color:firebrick;">NOTE: all elems are added to exising elems in binding_byPath causing HARMLESS duplication.</small> <br>
+    <i c-gren></i><a href="#" onclick="userCreated2a()">append to container 2 in new container</a> <small style="color:green;">to avoid duplication in binding_byPath.</small> <br>
+    <i c-orng></i><a href="#" onclick="userCreated3()">new container 3</a> 
+    
+    <div id="user-created"></div>
+    
+
+
+    <script type="module">
+        const LOG_PREF = '(page.html)'
+        const $dqs = document.querySelector.bind(document)
+        const $dce = document.createElement.bind(document)
+
+       
+        import {AlfaDatabinding} from '../alfa-databinding.mjs'
+           
+
+        var container1 = $dqs('div#container')
+        var container2 = $dqs('div#user-created')
+
+        // so far NOT NEEDED to "delegate" event
+        // container.addEventListener('change', function(ev){ /* "delegate" event, not needed */ })
+        container1.innerHTML += '<small>dynamicaly created SYNC:</small><br>'
+
+        makeNodes('ds.arg1', container1)
+        makeNodes('ds.arg2', container1)
+        // makeNodes('ds.arg2', container1)
+
+        container1.innerHTML += '<small>dynamicaly created ASYNC:</small><br>'
+
+        var alfaDatabinding
+
+        setTimeout(function(){
+            makeNodes('ds.arg10', container1)
+            makeNodes('ds.arg11', container1)
+        }, 500)
+        setTimeout(function(){
+            makeNodes('ds.arg18', container1)
+
+            //* MAKE SURE to create alfaDatabindinf AFTER all elements are created
+            alfaDatabinding = new AlfaDatabinding()
+        }, 600)
+
+
+        window.userCreated1 = function (){ //* new container 2
+
+            makeUserNodes('ds.arg2_0', container2)
+            makeUserNodes('ds.arg2_1', container2)
+            makeUserNodes('ds.arg2_2', container2)
+            
+            // //* redo alfaDatabinding from scratch, with old and new elements - WORKS  !!!!!!!!!!!!!!
+            // alfaDatabinding = new AlfaDatabinding()
+
+            //* experiment - more efficient
+            alfaDatabinding.scan_Elem_container(container2)
+        }
+
+        window.userCreated2 = function (){  //* append to container 2
+
+            makeUserNodes('ds.arg2_0', container2)
+            makeUserNodes('ds.arg2_8', container2)
+            makeUserNodes('ds.arg2_9', container2)
+
+            //* redo alfaDatabinding from scratch, with old and new elements - WORKS  !!!!!!!!!!!!!!
+            // alfaDatabinding = new AlfaDatabinding()
+
+             //* experiment - more efficient
+             alfaDatabinding.scan_Elem_container(container2)
+        }
+        window.userCreated2a = function (){ //* append to container 2 in new container
+
+            var container = $dce('div')
+            container.style.border = '2px solid green'
+            container2.append(container)
+
+            makeUserNodes('ds.arg2_0', container)
+            makeUserNodes('ds.arg2_1_0', container)
+            makeUserNodes('ds.arg2_1_1', container)
+
+            //* redo alfaDatabinding from scratch, with old and new elements - WORKS  !!!!!!!!!!!!!!
+            // alfaDatabinding = new AlfaDatabinding()
+
+             //* experiment - more efficient
+             alfaDatabinding.scan_Elem_container(container)
+        }
+
+        window.userCreated3 = function (){  //* new container 3
+
+            var container = $dce('div')
+            container.style.border = '2px solid orange'
+            $dqs('body').append(container)
+            // container3.innerHTML += '<br>'
+
+            makeUserNodes('ds.arg2_0', container)
+            makeUserNodes('ds.arg3_1', container)
+            makeUserNodes('ds.arg3_2', container)
+            // makeUserNodes('ds.arg73', container2)
+
+            //* redo alfaDatabinding from scratch, with old and new elements - WORKS  !!!!!!!!!!!!!!
+            // alfaDatabinding = new AlfaDatabinding()
+
+             //* experiment - more efficient
+             alfaDatabinding.scan_Elem_container(container)
+        }
+
+        
+        // helpers ////////////////////////////////////////////////////////////////////////////
+        function makeNodes(boundPath, container){
+            
+            var label = $dce('label')
+            label.innerText = boundPath
+
+            var input = $dce('input')
+            // input.placeholder = boundPath
+            input.setAttribute('bound_path', boundPath)
+
+            var span = $dce('span')
+            span.setAttribute('bound_path', boundPath)
+
+            container.append(label, input, span)
+
+            container.innerHTML += `<br>`
+        }
+        function makeUserNodes(boundPath, container){
+
+            container.innerHTML += `<br>`
+
+            var label = $dce('label')
+            label.innerText = boundPath
+
+            var input = $dce('input')
+            // input.placeholder = boundPath
+            input.setAttribute('bound_path', boundPath)
+
+            var span = $dce('span')
+            span.setAttribute('bound_path', boundPath)
+
+
+            //* ALT 1
+            container.append(label, input, span)
+
+            //* ALT 2
+            // var inputNode = container.appendChild(input)
+            // var spanNode = container.appendChild(span)
+            //* does work ONLY for the last created pair of <input><span>
+            // alfaDatabinding.createElementBinding(inputNode)
+            // alfaDatabinding.createElementBinding(spanNode)
+        }
+        
+        
+        ////////////////////////////////////////////////////////////////////////////
+
+        // makeElements(1, 'by func:', 'ds.arg1') //* create elements SYNC
+
+        // // // //* create elements ASYNC 
+        // // // setTimeout(function(){
+        // // //     makeElements(2, 'by func with setTimer:', {register: true})
+        // // //     makeElements(3, 'by func with setTimer:', {register: true})
+        // // // }, 100)
+
+        // makeElements(4, 'by func:', 'ds.arg4') //* create elements SYNC
+
+        // makeElements(5, 'by func:', {register: false}) //* create elements SYNC
+
+        // function makeElements(i, title, boundPath){
+        //     container.innerHTML += `${title}<br>`
+
+        //     var input = $dce('input')
+        //     // input.id = 'i'+i
+        //     input.setAttribute('bound_path', boundPath)
+
+        //     var span = $dce('span')
+        //     // span.id='s'+i
+        //     span.setAttribute('bound_path', boundPath)
+
+        //     container.append(input, span, $dce('br'))
+
+        //     /////////////////////
+        //     // //* now elems are part of the DOM, the variables are still not
+        //     // var dom_input = $dqs(`input#${input.id }`)
+        //     // var dom_span =  $dqs(`span#${span.id }`)
+
+        //     // alfaDatabinding.createElementBinding(dom_input, {delegatedEvent:false}) //* create binding for element, which did not exist during running new AlfaDatabinding()
+        //     // alfaDatabinding.createElementBinding(dom_span,  {delegatedEvent:false})
+        //     ////////////////////
+
+        //     alfaDatabinding.createElementBinding(input)
+        //     alfaDatabinding.createElementBinding(span)
+        // }
+
+        window.debugDS = function(){
+            console.log(`%cDEBUG window.ds`, 'background:yellow', window.ds)
+        }
+    </script>
+
+    <script type="module">
+        // import {AlfaDatabinding} from '../alfa-databinding.mjs'
+        // new AlfaDatabinding()
+    </script>
+    
+</body>
+</html>

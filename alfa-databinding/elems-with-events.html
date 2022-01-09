@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>events</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        h1{margin: 0}
+        h2{font-weight: normal; margin-bottom: 0; font-size: 1.2em; }
+        span{padding: .2em; color: green; font-weight:bold;}
+        pre{color: green;}
+        label{color: brown;}
+        small{color: firebrick;}
+    </style>
+    <style>
+        h3{margin-block-end: .5em; display:inline-block;}
+        h3 code{color: #004eff; }
+        i{font-style: normal; color: darkmagenta}
+        b{color:brown}
+    </style>
+</head>
+<body>
+    <h1>alfa-databinding  &nbsp;&nbsp;
+        <a href="index.html" >index</a></h1>
+    <h2>elements with outside event handlers <code>bound_onchange</code></h2>
+    the custom defined function will run AFTER 'change' event handler<br>
+    <small>see console log</small>
+    <br>
+
+    <h3><code>&lt;input <i>bound_onchange</i>="onInputSearch1"&gt;</code></h3><br>
+    <!-- <label>&lt;input type="search"&gt; </label> -->
+        <input type="search"  
+                bound_path="ds.arrayList1" 
+                bound_path_out="ds.selectedSearch"
+                bound_onchange="onInputSearch1"> 
+        <span bound_path="ds.selectedSearch"></span> <br>
+
+    <h3><code>&lt;select <i>bound_onchange</i>="onSelect1"&gt;</code></h3><br>
+    <!-- <label>&lt;select&gt; </label> -->
+        <select bound_path="ds.arrayList1"  
+                bound_path_out="ds.selectedSelect"
+                bound_onchange="onSelect1">
+        </select> <span bound_path="ds.selectedSelect"></span> <br><br>
+
+    <h3><code>&lt;table <i>bound_onrowselect</i>="onRowSelect1"&gt;</code></h3><br>  
+    <label>&lt;table&gt; </label> default biuld in event: <code>on_tableRowClick</code> sends row to <code>bound_path_out</code>
+        <table 
+            bound_path="ds.arrayList2" 
+            bound_path_out="ds.selectedRow"
+            bound_onrowselect="onRowSelect1"
+            >
+        </table> 
+    &lt;pre&gt; with selecter table row:
+    <pre bound_path="ds.selectedRow" to-json></pre>
+
+
+    <script type="module">
+        import {AlfaDatabinding} from '../alfa-databinding.mjs'
+
+        // NOT used because have to be declared BEFORE
+        // custom onchange event hanlders /////////////
+        //* MUST be declared BEFORE new AlfaDatabinding()
+        // window.bound_onchange = {
+        //     onInputSearch1: function(ev){console.log('(hosting page.ptml) onInputSearch1()', ev.target.value, ev.target)},
+        //     onSelect1: function(ev){console.log('(hosting page.ptml) onSelect1()', ev.target.value, ev.target)},
+        //     onTable1:  function(ev){console.log('(hosting page.ptml) onTable1()', ev.target.value, ev.target)},
+        // }
+
+        var alfaDatabinding = new AlfaDatabinding()
+
+        var arrayLst1 = ['alfa', 'beta', 'gamma', 'delta', 'sigma', 'omega']
+        var arrayLst2 = [
+            {alfa: 1, beta: 22, gamma: 39, delta: 14},
+            {alfa: 2, beta: 24, gamma: 63, delta: 42},
+            {alfa: 3, beta: 42, gamma: 33, delta: 54},
+            {alfa: 4, beta: 27, gamma: 35, delta: 74}
+        ]
+
+        alfaDatabinding.set('ds.arrayList1', arrayLst1, null)
+        alfaDatabinding.set('ds.arrayList2', arrayLst2, null)
+
+       
+        // custon bound_onchange functions
+        window.onInputSearch1 = function(obj){console.log('(hosting page.ptml) onInputSearch1()', obj)}
+        window.onSelect1 =      function(obj){console.log('(hosting page.ptml) onSelect1()', obj)}
+        window.onRowSelect1 =   function(obj){console.log('(hosting page.ptml) onRowSelect1()',  obj)}
+
+    </script>
+</body>
+</html>
