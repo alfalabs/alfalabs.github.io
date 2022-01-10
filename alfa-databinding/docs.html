@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        body{margin: 1em 4em}
+        h1{margin-block-end: 0;}
+        h1 i{font-size: .8em;}
+        /* h1 small{font-size: .5em;} */
+
+        div[logo-0]{
+            border: unset; height: 90px;
+            background: linear-gradient(90deg, rgba(66,0,1,1) 35%, rgba(155,13,23,1) 100%); 
+        }
+        div[logo-0] img{margin-left: 2em;}
+        div[logo-0] h1{color: white;
+            margin-top: -1.6em;
+            margin-left: 6em;
+            font-size: 3em;
+            }
+            div[md-view]{ border-top: 2px solid silver;}
+       
+    </style>
+    <script src="../showdown.js"></script>
+</head>
+<body>
+    
+    <div logo-0>
+        <img src="docs/binary.png">
+        <h1>alfa-databinding</h1>
+    </div>
+
+    <br>
+    <br>
+    usage examples: <a href="index.html">index</a>  &nbsp;&nbsp;
+    diagrams: <a href="docs/alfaDatabinding 1-initialization.png">init PNG</a>&nbsp;&nbsp; <a href="docs/alfaDatabinding 2-notifySubscribers.png">notifySubs PNG</a>
+    <br><br>
+
+    <div md-view></div>
+
+    <script>
+        var mdConverter = new showdown.Converter()
+
+        fetch('./readme.md')
+        .then(response => response.text())
+        .then(function(text){
+
+           document.querySelector('div[md-view]').innerHTML = mdConverter.makeHtml(text)
+
+        })
+    </script>
+</body>
+</html>
